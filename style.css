@@ -1,0 +1,50 @@
+*{
+    margin: 0px;
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+
+}
+body{
+    background-color :rgb(241, 233, 233);
+    display: grid;
+    place-items: center;
+}
+.Sign-in{
+    max-width: 500px;
+    width: 100%;
+    background-color: rgb(100, 30, 30);
+    padding: 20px;
+    box-shadow: 5px 6px 3px 2px #161414;
+    color: aliceblue;
+}
+h1{
+    text-align: center;
+}
+.form-container{
+    padding-top: 20px;
+    background-color: white;
+}
+.form-field{
+    display: grid;
+    padding: 10px 50px;
+}
+.form-field input{
+    height: 25px;
+    padding: 20px;
+    border:solid 1px black ;
+}
+label{
+    margin-bottom: 5px;
+}
+.submission-section{
+    padding-top: 25px;
+    display: grid;
+}
+.submission-section button{
+    height: 40px;
+    background-color: rgb(21, 255, 0) ;
+    font-size: 25px;
+    color:white ;
+}
