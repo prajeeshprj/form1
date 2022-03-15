@@ -9,13 +9,16 @@ function main(){
 function validate(event){
     event.preventDefault();
     var formData = new FormData(event.target)
-    var name = formData.get("Username")
-    var email = formData.get("mail id")
+    // target
+    var name =formData.get("Name")
+    var username = formData.get("Username")
+    var email = formData.get("mail-id")
     var password = formData.get("Password")
     var confirmPassword = formData.get("confirmpassword")
-    var phone = formData.get("Phonenumber")
+    var phone = formData.get("PhoneNumber")
     nameValidation(name,"name-error");
     emailValidation(email,"mail-id-error");
+    phoneNumberValidation(phone,"phoneNumber-error")
 }
     // if(!Username && Username<10)
     // _("username-error").innerHTML = "Please enter username"
@@ -52,6 +55,26 @@ function validate(event){
             return;
         }
         setError(id, "");
+    }
+    function  phoneNumberValidation(value,id){
+        isEmptyOrShort(value, id , 10, "phoneNumber");
+    }
+
+    function isEmptyOrShort(value, id, minlength, key)
+    {
+        if(!value){
+            setError(id,"please enter your phoneNumber");
+            return;
+        }
+        
+        if(value.length < minlength){
+            setError(id,"atLeast"+ minlength+"is needed" )
+            return;
+        }
+        setError(id, "");
+
+
+
     }
 
     function setError(id, message){
