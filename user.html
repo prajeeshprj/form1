@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>User</h1>
+    <p>
+        Name : <span id="name">
+
+        </span>
+    </p>
+    <p>
+        Phone : <span id="phone">
+
+        </span>
+    </p>
+    <p>
+        User Name : <span id="username">
+
+        </span>
+    </p>
+
+    <script>
+        function _(id){
+            return document.getElementById(id);
+        }
+        var url = new URL(location.href);
+        var id = url.searchParams.get("id");
+    
+        // const getRequest = (url)=> new Promise((resolve,reject)=>{
+        //     var xhr = new XMLHttpRequest();s
+        //     xhr.onreadystatechange = ()=>{
+        //         if(xhr.readyState === 4 && xhr.status ==200){
+        //             resolve(JSON.parse(xhr.responseText));
+        //         }else if(this.readyState === 4){
+        //             reject(xhr.statusText);
+        //         }
+        //     }    
+
+                // xhr.open("GET",url,true);
+                // xhr.send();
+        });
+        const Fetch = (...params)=>fetch(...params).then(res=>res.json())  
+
+    //     // var xhttp = new XMLHttpRequest();
+    //     xhttp.onreadystatechange = function() {
+    //         if(this.readyState == 4 && this.status==200){
+    //             var result = JSON.parse(this.responseText); //http
+    //         _("name").innerHTML = result.name;
+    //         _("phone").innerHTML = result.phone;
+    //         _("username").innerHTML = result.username;
+    //     }
+    // };
+    // xhttp.open("GET", "http://192.168.1.39:3000/user/"+id, true);
+    // xhttp.send();
+fetch("http://192.168.1.39:3000/user/"+id)
+.then((result)=>{
+       _("name").innerHTML = result.name;
+       _("phone").innerHTML = result.phone;
+     _("username").innerHTML = result.username;
+
+}).catch((err)=>{
+    console.log(err);
+});
+    </script>
+</body>
+</html>

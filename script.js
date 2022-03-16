@@ -11,71 +11,130 @@ function validate(event){
     var formData = new FormData(event.target)
     // target
     var name =formData.get("Name")
-    var username = formData.get("Username")
+    var username = formData.get("username")
     var email = formData.get("mail-id")
-    var password = formData.get("Password")
-    var confirmPassword = formData.get("confirmpassword")
-    var phone = formData.get("PhoneNumber")
-    nameValidation(name,"name-error");
-    emailValidation(email,"mail-id-error");
-    phoneNumberValidation(phone,"phoneNumber-error")
-}
-    // if(!Username && Username<10)
-    // _("username-error").innerHTML = "Please enter username"
-    // if(!mail id)
-    // _("mail id-error").innerHTML = "Please enter valid mail id"
-    // if(phoneNumber<10)
-    // _("phonenmber-error").innerHTML = "Please enter valid mail id"
-    
+    var password = formData.get("password")
+    var confirmPassword = formData.get("confirmPassword")
+    var phone = formData.get("phoneNumber")
 
+  if(  nameValidation(name,"name-error")&&
+    emailValidation(email,"mail-id-error")&&
+    phoneNumberValidation(phone,"phoneNumber-error")&&
+    passwordValidation(password,"password-error")&&
+    confirmPasswordValidation(confirmPassword,password,"confirmPassword-error")&&
+    usernameValidation( username,"username-error")
+  ){
+    submit({
+        name,
+        email,
+        password,
+        phone,
+        username
+    });
+}else{
+    console.log("failed");
+}
+
+}
+function submit(data) {
+let postRequest = function (url,data ){
+return new Promise(function(resolve, reject){
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 201) {
+    resolve(JSON.parse(this.responseText));
+  }else if (this.readyState == 4){
+      reject (JSON.parse(this.responseText || "error"));
+  }
+};
+xhttp.open("POST",url, true);
+xhttp.setRequestHeader("Content-type", "application/json");
+xhttp.send(JSON.stringify(data));
+});  
+};
+
+fetch("http://192.168.1.39:3000/user",{
+    method:"POST",
+    headers: {
+        "Content-type": "application/json"
+    },
+    body:JSON.stringify(data),
+})
+.then((response)=> response.json())
+.then((result) =>{ 
+window.location.href = "./user.html?id=" + result.id;
+})
+.catch((err) => {
+console.log(err);
+});
+
+}
+    
     function nameValidation(value,id){
-        isEmptyOrShort(value, id , 3, "Name");
+       return !isEmptyOrShort(value, id , 3, "Name");
     }
 
     function isEmptyOrShort(value, id, minlength, key){
+        
         if(!value){
             setError(id, "Please enter your"+key);
-            return;
+            return true;
         }
         if(value.length < minlength){
             setError(id, key + "must be atleast" + minlength + "characters");
-        return;
+        return true;
         }
         setError(id, "");
+        return false;
 
     }
 
     function emailValidation(value, id){
         if(!value){
             setError(id,"please enter your email");
-            return;
+            return false;
         }
         if (!value.includes("@")) {
             setError(id, "Please enter a valid email");
-            return;
+            return false;
         }
         setError(id, "");
+        return true;
     }
-    function  phoneNumberValidation(value,id){
-        isEmptyOrShort(value, id , 10, "phoneNumber");
+    function phoneNumberValidation(value, id) {
+        return !isThatAPhoneNumber(value, id, 10, "phoneNumber");
     }
-
-    function isEmptyOrShort(value, id, minlength, key)
+    function isThatAPhoneNumber(value, id, minlength, key)
     {
         if(!value){
-            setError(id,"please enter your phoneNumber");
-            return;
+            setError(id,"please enter your"+key);
+            return true;
         }
         
         if(value.length < minlength){
-            setError(id,"atLeast"+ minlength+"is needed" )
-            return;
+            setError(id,"muse be"+ minlength+"character" )
+            return true;
         }
         setError(id, "");
-
-
-
+        return false;
     }
+    function passwordValidation(value,id)
+    {
+        return !isEmptyOrShort(value,id,8,"password")
+    }
+    function confirmPasswordValidation(value,password,id){
+        if(value!==password){
+            setError(id,"password is not matching")
+            return false
+        }
+        setError(id,"")
+        return true
+    }
+    function usernameValidation(value,id){
+        return !isEmptyOrShort(value,id,3,"username")
+    }
+    
+    
 
     function setError(id, message){
         _(id).innerHTML = message;
