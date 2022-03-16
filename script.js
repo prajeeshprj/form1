@@ -52,7 +52,7 @@ xhttp.setRequestHeader("Content-type", "application/json");
 xhttp.send(JSON.stringify(data));
 });  
 };
-
+console.log(data);
 fetch("http://192.168.1.39:3000/user",{
     method:"POST",
     headers: {

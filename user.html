@@ -44,7 +44,7 @@
 
                 // xhr.open("GET",url,true);
                 // xhr.send();
-        });
+        // });
         const Fetch = (...params)=>fetch(...params).then(res=>res.json())  
 
     //     // var xhttp = new XMLHttpRequest();
@@ -58,7 +58,7 @@
     // };
     // xhttp.open("GET", "http://192.168.1.39:3000/user/"+id, true);
     // xhttp.send();
-fetch("http://192.168.1.39:3000/user/"+id)
+Fetch("http://192.168.1.39:3000/user/"+id)
 .then((result)=>{
        _("name").innerHTML = result.name;
        _("phone").innerHTML = result.phone;
